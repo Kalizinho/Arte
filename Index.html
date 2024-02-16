@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coffee - Artista</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+  <header>
+    <h1>Coffee</h1>
+    <nav>
+      <ul>
+        <li><a href="#portfolio">Portfólio</a></li>
+        <li><a href="#comissions">Comissões</a></li>
+        <li><a href="#post-art">Postar Arte</a></li>
+      </ul>
+    </nav>
+    <div class="social">
+      <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+      <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+      <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+    </div>
+  </header>
+  
+  <main>
+    <section id="login">
+      <h2>Faça o login para postar fotos</h2>
+      <form id="login-form">
+        <label for="username">Nome de usuário:</label>
+        <input type="text" id="username" name="username" required>
+        <label for="password">Senha:</label>
+        <input type="password" id="password" name="password" required>
+        <button type="submit">Login</button>
+      </form>
+    </section>
+
+    <section id="portfolio">
+      <h2>Portfólio</h2>
+      <div class="gallery" id="portfolio-gallery">
+        <!-- Aqui serão exibidas as artes do portfólio -->
+      </div>
+    </section>
+    
+    <section id="comissions">
+      <h2>Comissões</h2>
+      <div class="gallery" id="comissions-gallery">
+        <!-- Aqui serão exibidas as artes das comissões -->
+      </div>
+    </section>
+
+    <section id="post-art" style="display: none;">
+      <h2>Postar Arte</h2>
+      <form id="art-form">
+        <label for="art-image">Selecione a imagem:</label>
+        <input type="file" id="art-image" accept="image/*" required>
+        <label for="art-caption">Legenda:</label>
+        <textarea id="art-caption" class="input-text" required></textarea>
+        <label for="art-price">Preço:</label>
+        <input type="text" id="art-price" class="input-text">
+        <label for="art-description">Descrição:</label>
+        <textarea id="art-description" class="input-text"></textarea>
+        <label for="post-type">Postar em:</label>
+        <select id="post-type" name="postType">
+          <option value="portfolio">Portfólio</option>
+          <option value="comissions">Comissões</option>
+        </select>
+        <button type="submit">Postar</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

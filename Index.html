@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coffee - Artista</title>
+  <!-- Coloque o link para o arquivo CSS abaixo -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Coffee</h1>
+    <nav>
+      <ul>
+        <li><a href="#portfolio">Portfólio</a></li>
+        <li><a href="#comissions">Comissões</a></li>
+        <li><a href="#post-art">Postar Arte</a></li>
+      </ul>
+    </nav>
+    <div class="social">
+      <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+      <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+      <a href="#" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+    </div>
+  </header>
+  
+  <main>
+    <section id="portfolio">
+      <h2>Portfólio</h2>
+      <div class="gallery" id="portfolio-gallery">
+        <!-- Aqui serão exibidas as artes do portfólio -->
+      </div>
+    </section>
+    
+    <section id="comissions">
+      <h2>Comissões</h2>
+      <div class="gallery" id="comissions-gallery">
+        <!-- Aqui serão exibidas as artes das comissões -->
+      </div>
+    </section>
+
+    <section id="post-art">
+      <h2>Postar Arte</h2>
+      <form id="art-form">
+        <label for="art-image">Selecione a imagem:</label>
+        <input type="file" id="art-image" accept="image/*" required>
+        <label for="art-caption">Legenda:</label>
+        <textarea id="art-caption" class="input-text" required></textarea>
+        <label for="art-price">Preço:</label>
+        <input type="text" id="art-price" class="input-text">
+        <label for="art-description">Descrição:</label>
+        <textarea id="art-description" class="input-text"></textarea>
+        <label for="post-type">Postar em:</label>
+        <select id="post-type" name="postType">
+          <option value="portfolio">Portfólio</option>
+          <option value="comissions">Comissões</option>
+        </select>
+        <button type="submit">Postar</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Coloque o seu JavaScript abaixo -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+  // Armazene o nome de usuário e senha
+  const username = 'I1am,2coffee3';
+  const password = 'Yes,I1am,2coffee3';
+
+  const loginForm = document.getElementById('login-form');
+  const postArtSection = document.getElementById('post-art');
+  const loginSection = document.getElementById('login-section');
+
+  // Adicione um evento de envio ao formulário de login
+  loginForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const enteredUsername = loginForm.username.value;
+    const enteredPassword = loginForm.password.value;
+
+    // Verifique se as credenciais estão corretas
+    if (enteredUsername === username && enteredPassword === password) {
+      // Se as credenciais estiverem corretas, exiba a seção de postagem de arte e oculte a seção de login
+      postArtSection.style.display = 'block';
+      loginSection.style.display = 'none';
+      loginForm.reset(); // Limpe o formulário após o login
+    } else {
+      // Se as credenciais estiverem incorretas, exiba uma mensagem de erro
+      alert('Somente a dona da página pode acessar');
+      // Você pode adicionar uma mensagem de erro aqui se desejar
+    }
+  });
+
+  // Função para adicionar uma nova arte
+  function addArtwork(image, caption, price, description, gallery) {
+    const div = document.createElement('div');
+    div.classList.add('artwork');
+    div.innerHTML = `
+      <img src="${image}" alt="${caption}">
+      <div class="art-info">
+        <p class="caption">${caption}</p>
+        ${price ? `<p class="price">Preço: ${price}</p>` : ''}
+        <p class="description">${description}</p>
+      </div>
+    `;
+    gallery.appendChild(div);
+
+    // Adicionar evento de clique na imagem para visualização em tamanho completo
+    const img = div.querySelector('img');
+    img.addEventListener('click', () => {
+      window.open(image, '_blank');
+    });
+  }
+
+  // Manipular o envio do formulário para postar uma nova arte
+  const form = document.getElementById('art-form');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const imageInput = document.getElementById('art-image');
+    const caption = document.getElementById('art-caption').value;
+    const price = document.getElementById('art-price').value;
+    const description = document.getElementById('art-description').value;
+    const file = imageInput.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function () {
+        const imageData = reader.result;
+        let selectedGallery;
+        const selectedOption = form.postType.value;
+        if (selectedOption === 'portfolio') {
+          selectedGallery = document.getElementById('portfolio-gallery');
+        } else if (selectedOption === 'comissions') {
+          selectedGallery = document.getElementById('comissions-gallery');
+        }
+        addArtwork(imageData, caption, price, description, selectedGallery);
+        form.reset(); // Limpar o formulário após o envio
+
+        // Salvar a imagem para simular armazenamento permanente
+        saveImage(imageData);
+      };
+    }
+  });
+
+  // Adicionar evento de digitação no campo de preço para alternar a visibilidade do texto "Preço:"
+  const priceInput = document.getElementById('art-price');
+  priceInput.addEventListener('input', function () {
+    const priceLabel = document.querySelector('[for="art-price"]');
+    if (priceInput.value) {
+      priceLabel.style.display = 'block';
+    } else {
+      priceLabel.style.display = 'none';
+    }
+  });
+
+  // Função para salvar a imagem (simulação de armazenamento permanente)
+  function saveImage(imageData) {
+    // Aqui você pode implementar a lógica para salvar a imagem em um banco de dados ou serviço de armazenamento
+    // Por enquanto, estamos apenas simulando salvando a imagem em uma lista
+    let storedPhotos = JSON.parse(localStorage.getItem('storedPhotos')) || [];
+    storedPhotos.push(imageData);
+    localStorage.setItem('storedPhotos', JSON.stringify(storedPhotos));
+  }
+
+  // Simular a exibição das fotos já postadas (após recarregar a página)
+  const storedPhotos = JSON.parse(localStorage.getItem('storedPhotos')) || [];
+  const photosContainer = document.getElementById('photos');
+  storedPhotos.forEach(function (photoUrl) {
+    const img = document.createElement('img');
+    img.src = photoUrl;
+    photosContainer.appendChild(img);
+  });
+
+  // Verifique se o usuário já está logado (se as credenciais estão salvas)
+  if (localStorage.getItem('loggedIn')) {
+    postArtSection.style.display = 'block';
+    loginSection.style.display = 'none';
+  }
+});
+  </script>
+</body>
+</html>
